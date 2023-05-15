@@ -125,6 +125,9 @@ import EditDistrict from "./Body/ShippingArea/AllDistrict/EditDistrict";
 import AddDistrict from "./Body/ShippingArea/AllDistrict/AddDistrict";
 import EditState from "./Body/ShippingArea/AllState/EditState";
 import AddState from "./Body/ShippingArea/AllState/AddState";
+import EditProduct from "./Body/ProductManage/EditProduct";
+import AllProduct from "./Body/ProductManage/AllProduct";
+import AddProduct from "./Body/ProductManage/AddProduct";
 
 
 const theme = createTheme({
@@ -178,6 +181,11 @@ console.log('token??????',{token});
       <Route path="/dashboard/editsubcategory/:id" element={<EditSubCategory />} />
       <Route path="allsubcategory" element={<AllSubCategory/>}/>
       <Route path="addsubcategory" element={<AddSubCategory/>}/>
+
+
+      <Route path="/dashboard/editproduct/:id" element={<EditProduct />} />
+      <Route path="allproduct" element={<AllProduct/>}/>
+      <Route path="addproduct" element={<AddProduct/>}/>
 
 
       <Route path="/dashboard/editslider/:id" element={<EditSlider />} />

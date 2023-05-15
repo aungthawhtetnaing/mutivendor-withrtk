@@ -88,6 +88,9 @@ import AddDistrict from '../Body/ShippingArea/AllDistrict/AddDistrict';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import EditState from '../Body/ShippingArea/AllState/EditState';
 import AddState from '../Body/ShippingArea/AllState/AddState';
+import AllProduct from '../Body/ProductManage/AllProduct';
+import EditProduct from '../Body/ProductManage/EditProduct';
+import AddProduct from '../Body/ProductManage/AddProduct';
 
 
 const drawerWidth = 240;
@@ -626,6 +629,63 @@ export default function Navbar( ) {
       <Divider />
 
 
+     {/* ProfuctManage */}
+
+
+
+     <List>
+          <ListItem disablePadding>
+            <ListItemButton
+              selected={activeItem === 'product'}
+              onClick={() => {
+                handleItemClick('product');
+                handleListItemClick();
+              }}
+            >
+              <ListItemIcon>
+                <BallotTwoToneIcon/>
+              </ListItemIcon>
+              <ListItemText primary='Product Manage' />
+              <ListItemIcon>
+              {showButtons ? ( <KeyboardArrowUpIcon/>):(<KeyboardArrowDownIcon/>)}
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+       
+      </List>
+
+      {showButtons && (
+        <div>
+          {/* <Button variant="contained">Button 1</Button>
+          <Button variant="contained">Button 2</Button> */}
+           <Link to="allproduct" style={{textDecoration:'none',color:"black"}} >
+            <ListItem  disablePadding>
+              <ListItemButton  selected={activeItem === 'allproduct'} onClick={() => handleItemClick('allproduct')}>
+              <ListItemIcon>
+                 <KeyboardDoubleArrowRightIcon/>
+                </ListItemIcon>
+              <ListItemText primary='All Product ' />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+
+          <Link to="addproduct" style={{textDecoration:'none',color:"black"}} >
+            <ListItem  disablePadding>
+              <ListItemButton  selected={activeItem === 'addproduct'} onClick={() => handleItemClick('addproduct')}>
+              <ListItemIcon>
+                 <KeyboardDoubleArrowRightIcon/>
+                </ListItemIcon>
+              <ListItemText primary='Add Product ' />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+            
+        </div>
+      )}
+
+      <Divider />
+
+
 
 
       {/* SliderManage */}
@@ -885,6 +945,12 @@ export default function Navbar( ) {
             <Route path="allsubcategory" element={<AllSubCategory/>}/>
                <Route path="editsubcategory/:id" element={<EditSubCategory/>}/>
             <Route path="addsubcategory" element={<AddSubCategory/>}/>
+
+            {/* SubCategory */}
+            <Route path="allproduct" element={<AllProduct/>}/>
+               <Route path="editproduct/:id" element={<EditProduct/>}/>
+            <Route path="addproduct" element={<AddProduct/>}/>
+
             {/* SliderManage */}
             <Route path="allslider" element={<AllSlider/>}/>
                <Route path="editslider/:id" element={<EditSlider/>}/>
