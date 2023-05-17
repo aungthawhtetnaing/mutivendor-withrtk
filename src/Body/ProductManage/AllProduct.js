@@ -11,7 +11,7 @@ import { Button, Chip, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { allBrandData } from '../../Redux/Components/Brand/allBrandSlice';
-import { NotificationsActiveOutlined, TramSharp } from '@mui/icons-material';
+import { NotAccessibleOutlined, NotificationsActiveOutlined, TramSharp } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,8 +21,8 @@ import { useState } from 'react';
 import { slideDetail } from '../../Redux/Components/SliderManage/allSliderSlice';
 import { productDetail } from '../../Redux/Components/ProductManage/AllProductSlice';
 
-
-
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 function createData(name, code,short, population,qty,discount,status, size) {
   const density = population / size;
   return { name, code,short, population,qty,discount,status, size };
@@ -37,11 +37,11 @@ export default function AllProduct() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [todoUser,setTodoUser] = useState([]);
 
-  const [isButtonActive, setIsButtonActive] = useState(false);
+  const [status, setStatus] = useState(1); 
 
-  const handleToggle = () => {
-    setIsButtonActive(!isButtonActive);
-  };
+  const [per,setPer]=useState([])
+
+ 
 
   
   const columns = [
@@ -80,7 +80,7 @@ export default function AllProduct() {
       label: 'Action',
       minWidth: 50,
       align: 'center',
-      format: (id) => <div>
+      format: (id,status) => <div>
                             <Link to={`/dashboard/editslider/${id}`} style={{textDecoration:'none',color:"black"}} >
                               <Button 
                           variant='contained'  sx={{color:"white",backgroundColor:"green"}}>
@@ -90,8 +90,8 @@ export default function AllProduct() {
                             <Button variant='contained'  onClick={()=>handleDelete(id)} sx={{color:"white",backgroundColor:"red"}}>
                             <DeleteIcon/>
                             </Button>
-                            <Button variant='contained'  onClick={()=>handlebutton(id)} sx={{color:"white",backgroundColor:"gray"}}>
-                            <NotificationsActiveOutlined/>
+                            <Button variant='contained' onClick={() => handleToggle(id,status)} sx={{color:"white",backgroundColor:"white"}} >
+                              {status === 1 ? <ToggleOnIcon color='success'/> : <ToggleOffIcon color='error'/>}
                             </Button>
                             </div>,
     },
@@ -99,9 +99,45 @@ export default function AllProduct() {
   
   ];
 
-  const handlebutton=(id)=>{
-    console.log(id);
-  }
+ 
+
+  function handleToggle(id,status){
+    const newStatus = status === 1 ? 0 : 1; // Toggle the status value
+    setStatus(newStatus);
+  
+    // Call the APIs based on the status value
+    if (newStatus === 1) {
+      console.log("active",id);
+      fetch(`http://192.168.2.108:9999/api/admin/active/product/${id}`, {
+        method: 'POST',
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data if needed
+          console.log(data);
+          setPer(data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the API call
+          console.error(error);
+        });
+    } else {
+      fetch(`http://192.168.2.108:9999/api/admin/inactive/product/${id}`, {
+        method: 'POST',
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data if needed
+          console.log(data);
+          setPer(data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the API call
+          console.error(error);
+        });
+    }
+  };
+
 
 
   function handleDelete(id){
@@ -113,7 +149,7 @@ export default function AllProduct() {
     })
     .then(willDelete => {
       if (willDelete) {
-        fetch(`http://192.168.2.106:9999/api/admin/slider/${id}`,{
+        fetch(`http://192.168.2.108:9999/api/admin/slider/${id}`,{
           method:'DELETE'
   
       }).then((result)=>{
@@ -172,8 +208,9 @@ useEffect(()=>{
   };
 
 
-  
-
+  useEffect(()=>{
+    dispatch(productDetail())
+  },[per])
   return (
 
     <div>
@@ -217,7 +254,7 @@ useEffect(()=>{
                             column.id === 'population' ? column.format(row.population) :
                             column.id === 'status' ? column.format(row.status) :
                             column.id === 'discount' ? column.format(row.discount, row.population) :
-                            column.id === 'size' ? column.format(row.name) :
+                            column.id === 'size' ? column.format(row.name,row.status) :
                             value) 
                             : value
                           }
