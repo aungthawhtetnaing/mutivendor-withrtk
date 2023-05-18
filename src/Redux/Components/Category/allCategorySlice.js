@@ -7,7 +7,7 @@ const initialState = {
 
 export const categoryDetail = createAsyncThunk('category/categoryDetail',()=>{
    return axios
-    .get('http://192.168.2.106:9999/api/admin/category')
+    .get('http://192.168.2.108:9999/api/admin/category')
     .then((response)=>response.data.data)
 })
 

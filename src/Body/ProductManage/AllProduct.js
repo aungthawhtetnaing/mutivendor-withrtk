@@ -81,7 +81,7 @@ export default function AllProduct() {
       minWidth: 50,
       align: 'center',
       format: (id,status) => <div>
-                            <Link to={`/dashboard/editslider/${id}`} style={{textDecoration:'none',color:"black"}} >
+                            <Link to={`/dashboard/editproduct/${id}`} style={{textDecoration:'none',color:"black"}} >
                               <Button 
                           variant='contained'  sx={{color:"white",backgroundColor:"green"}}>
                                 <EditNoteTwoToneIcon/>

@@ -7,7 +7,7 @@ const initialState = {
 
 export const subCategoryDetail = createAsyncThunk('allSubCat/subCategoryDetail',()=>{
    return axios
-    .get('http://192.168.2.106:9999/api/admin/subcategory')
+    .get('http://192.168.2.108:9999/api/admin/subcategory')
     .then((response)=>response.data.data)
 })
 
