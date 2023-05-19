@@ -1,10 +1,12 @@
-import { Box, Button, Chip, FormControl, Grid, InputLabel, NativeSelect, Paper, Stack, TextField, Typography, styled } from '@mui/material'
+import { Box, Button, Checkbox, Chip, FormControl, Grid, InputLabel, NativeSelect, Paper, Stack, TextField, Typography, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp';
 import { allBrandData } from '../../Redux/Components/Brand/allBrandSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { categoryDetail } from '../../Redux/Components/Category/allCategorySlice';
 import { subCategoryDetail } from '../../Redux/Components/SubCategory/allSubCategorySlice';
+import { vendorDetail } from '../../Redux/Components/ProductManage/AllVendorSlice';
+import { addProduct } from '../../Redux/Components/ProductManage/AddProductSlice';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -43,8 +45,31 @@ const AddProduct = () => {
   const [selectedDivision, setSelectedDivision] = useState('');
   const [selectedDivision1, setSelectedDivision1] = useState('');
   const [selectedDivision2, setSelectedDivision2] = useState('');
+  const [selectedDivision3, setSelectedDivision3] = useState('');
+
+  const [selectedValue1, setSelectedValue1] = useState('0');
+  const [selectedValue2, setSelectedValue2] = useState('0');
+  const [selectedValue3, setSelectedValue3] = useState('0');
+  const [selectedValue4, setSelectedValue4] = useState('0');
 
 
+
+  const handleChange7 = (event) => {
+    setSelectedValue1(event.target.checked ? '1' : '0');
+
+  };
+
+  const handleChange8 = (event) => {
+    setSelectedValue2(event.target.checked ? '1' : '0');
+  };
+
+  const handleChange9 = (event) => {
+    setSelectedValue3(event.target.checked ? '1' : '0');
+  };
+
+  const handleChange10 = (event) => {
+    setSelectedValue4(event.target.checked ? '1' : '0');
+  };
 
 
    const handleKeyPress = (event) => {
@@ -171,6 +196,15 @@ const allsubcategory=useSelector(state=>state.allSubCategory.allSubCat)
   },[])
 
 
+
+  const allVendor=useSelector(state=>state.allVendor.vendor)
+  console.log("vendor detal",allVendor);
+  
+  useEffect(()=>{
+      dispatch(vendorDetail())
+  },[])
+
+
 const handleChange = (e) => {
   setSelectedDivision(e.target.value);
 };
@@ -190,13 +224,22 @@ console.log("selected value",selectedDivision2);
 
 
 
-const showcat = allsubcategory?.find(Dist => {
+
+const showcat = allsubcategory?.filter(Dist => {
   return Dist.category_id == selectedDivision1;
 });
 
 
 
 console.log("District id id",showcat);
+
+
+const handleChange3 = (e) => {
+  setSelectedDivision3(e.target.value);
+};
+
+console.log("selected value",selectedDivision3);
+
 
    const handleSubmit=(e)=>{
    e.preventDefault();
@@ -215,14 +258,21 @@ console.log("District id id",showcat);
     product_qty,
     brand_id:selectedDivision,
     category_id:selectedDivision1,
+    subcategory_id:selectedDivision2==""?showcat[0]?.id:selectedDivision2,
+    vendor_id:selectedDivision3,
+    hot_deals:selectedValue1  ,
+    featured: selectedValue2 ,
+    special_offer:selectedValue3  ,
+    special_offer:selectedValue4  ,
    }
    console.log(data);
+  //  dispatch(addProduct({data}))
    };
   return (
     <div>
       <Grid sx={{marginBottom:'10px'}}>
         <Grid item xs={12}>
-            <Typography>Add Product</Typography>
+            <Typography variant='h5' sx={{fontWeight:"bold"}}>Add Product</Typography>
         </Grid>
         
         <form onSubmit={handleSubmit}>
@@ -399,7 +449,7 @@ console.log("District id id",showcat);
               ):(null)}              
             
 
-
+              <hr></hr>
             <Typography
                 sx={{marginLeft:"auto",paddingBottom:"10px",fontWeight:"bold"}}>
                   Mutiple Images
@@ -439,8 +489,8 @@ console.log("District id id",showcat);
                           <TextField
                           style={{paddingBottom:"30px"}}
                           name="pName"
-                          value={selling_price}
-                          onChange={(e) => Setselling_price(e.target.value)}
+                          value={selling_price === NaN ? 0 : selling_price}
+                          onChange={(e) => Setselling_price(parseInt(e.target.value, 10) || 0)}
                           
                           type={'number'}
                           sx={{ width: '100%' }}
@@ -512,7 +562,7 @@ console.log("District id id",showcat);
                     </Grid>
                   </Grid>
                 </Box>
-                  <Box>
+                  <Box sx={{paddingBottom:"40px"}}>
                   <FormControl fullWidth>
 
                   <Typography
@@ -536,7 +586,7 @@ console.log("District id id",showcat);
                 </Box>
 
 
-                <Box>
+                <Box sx={{paddingBottom:"40px"}}>
                   <FormControl fullWidth>
 
                   <Typography
@@ -560,7 +610,7 @@ console.log("District id id",showcat);
                 </Box>
 
 
-                <Box>
+                <Box sx={{paddingBottom:"40px"}}>
                   <FormControl fullWidth>
 
                   <Typography
@@ -571,11 +621,11 @@ console.log("District id id",showcat);
                       
                     </InputLabel>
                     <NativeSelect
-                      defaultValue={showcat?.id}
-                      onChange={handleChange} 
+                      // defaultValue={showcat?.id}
+                      onChange={handleChange2} 
                     >
-                      <option value=""></option>
-                      {allsubcategory?.map((allcat) => (
+                      
+                      {showcat?.map((allcat) => (
                         <option key={allcat.id} value={allcat.id}>
                           {allcat.subcategory_name}
                         </option>
@@ -583,26 +633,114 @@ console.log("District id id",showcat);
                     </NativeSelect>
                   </FormControl>
                 </Box>
+
+
+
+                <Box sx={{paddingBottom:"40px"}}>
+                  <FormControl fullWidth>
+
+                  <Typography
+                        sx={{marginRight:"auto",fontWeight:"bold"}}>
+                          Select Vendor 
+                        </Typography>
+                    <InputLabel variant="contained" htmlFor="uncontrolled-native">
+                      
+                    </InputLabel>
+                    <NativeSelect
+                      // defaultValue={showcat?.id}
+                      onChange={handleChange3} 
+                    >
+                       <option value=""></option>
+                      {allVendor?.map((allcat) => (
+                        <option key={allcat.id} value={allcat.id}>
+                          {allcat.name}
+                        </option>
+                      ))}
+                    </NativeSelect>
+                  </FormControl>
+                </Box>
+
+
+
+
+
+                <Box>
+                  <Grid container spacing={2} columns={16} sx={{ display: 'flex' }}>
+                    <Grid item xs={8}>
+                    <Typography
+                        sx={{marginLeft:"auto",fontWeight:"bold"}}>
+                        Hot Deals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <Checkbox
+                            checked={selectedValue1 === '1'}
+                            onChange={handleChange7}
+                            value={selectedValue1}
+                          />
+                        </Typography>
+                        
+                    </Grid>
+                    <Grid item xs={8}>
+                    <Typography
+                        sx={{marginLeft:"auto",fontWeight:"bold"}}>
+                           Featured&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:    <Checkbox
+                                  checked={selectedValue2 === '1'}
+                                  onChange={handleChange8}
+                                  value={selectedValue2}
+                                />
+                        </Typography>
+                     
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box>
+                  <Grid container spacing={2} columns={16}>
+                    <Grid item xs={8}>
+                    <Typography
+                        sx={{marginLeft:"auto",fontWeight:"bold"}}>
+                          Special offer:  <Checkbox
+                              checked={selectedValue3 === '1'}
+                              onChange={handleChange9}
+                              value={selectedValue3}
+                            />
+                        </Typography>
+                       
+                    </Grid>
+                    <Grid item xs={8}>
+                    <Typography
+                        sx={{marginLeft:"auto",fontWeight:"bold"}}>
+                          Special Deals: <Checkbox
+                              checked={selectedValue4 === '1'}
+                              onChange={handleChange10}
+                              value={selectedValue4}
+                            />
+                        </Typography>
+                        
+                    </Grid>
+                  </Grid>
+                </Box>
+
+
+
+                <Box sx={{ flexGrow: 1 }}>
+                  <Grid container spacing={2} columns={16}>
+                    <Grid item xs={16}>
+                    <Button
+                      type='submit'
+                      endIcon={<PersonOutlineSharpIcon style={{color:"green"}}/>}
+                          style={{color:'black'}}
+                          color="inherit"
+                          fullWidth
+                          sx={{borderRadius:2,marginTop:"40px",background:'inherit'}} 
+                          variant='contained'>
+                          Save   Product
+                      </Button> 
+                    </Grid>
+                  </Grid>
+                </Box>
+
                 </Item>
               </Grid>
             </Grid>
           </Box>
-
-
-          
-          <span>
-           
-           &nbsp;  &nbsp;
-           <Button
-           type='submit'
-           endIcon={<PersonOutlineSharpIcon style={{color:"green"}}/>}
-              style={{color:'black'}}
-              color="inherit"
-               sx={{marginTop:3, borderRadius:2,background:'inherit'}} 
-               variant='contained'>
-              Update
-           </Button> 
-           </span>
         </form>
         
       </Grid>
