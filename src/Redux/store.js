@@ -18,6 +18,7 @@ import AllStateReducer from "./Components/ShippingArea/AllState/AllStateSlice";
 import AllCouponReducer from "./Components/Coupon/AllCouponSlice";
 import AllProductReducer from "./Components/ProductManage/AllProductSlice";
 import AllVendorReducer from "./Components/ProductManage/AllVendorSlice";
+import allThambnailReducer from "./Components/ProductManage/ThambnailSlice";
 const store =configureStore({
     reducer:{
         register:registerAdminReducer,
@@ -39,6 +40,7 @@ const store =configureStore({
         allCoupon:AllCouponReducer,
         allProduct:AllProductReducer,
         allVendor:AllVendorReducer,
+        allThambnail:allThambnailReducer,
     }
 })
 

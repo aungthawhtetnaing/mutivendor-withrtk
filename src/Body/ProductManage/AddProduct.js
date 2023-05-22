@@ -47,28 +47,28 @@ const AddProduct = () => {
   const [selectedDivision2, setSelectedDivision2] = useState('');
   const [selectedDivision3, setSelectedDivision3] = useState('');
 
-  const [selectedValue1, setSelectedValue1] = useState('0');
-  const [selectedValue2, setSelectedValue2] = useState('0');
-  const [selectedValue3, setSelectedValue3] = useState('0');
-  const [selectedValue4, setSelectedValue4] = useState('0');
+  const [selectedValue1, setSelectedValue1] = useState("0");
+  const [selectedValue2, setSelectedValue2] = useState("0");
+  const [selectedValue3, setSelectedValue3] = useState("0");
+  const [selectedValue4, setSelectedValue4] = useState("0");
 
 
 
   const handleChange7 = (event) => {
-    setSelectedValue1(event.target.checked ? '1' : '0');
+    setSelectedValue1(event.target.checked ? 1 : 0);
 
   };
 
   const handleChange8 = (event) => {
-    setSelectedValue2(event.target.checked ? '1' : '0');
+    setSelectedValue2(event.target.checked ? 1 : 0);
   };
 
   const handleChange9 = (event) => {
-    setSelectedValue3(event.target.checked ? '1' : '0');
+    setSelectedValue3(event.target.checked ? 1 : 0);
   };
 
   const handleChange10 = (event) => {
-    setSelectedValue4(event.target.checked ? '1' : '0');
+    setSelectedValue4(event.target.checked ? 1 : 0);
   };
 
 
@@ -263,11 +263,14 @@ console.log("selected value",selectedDivision3);
     hot_deals:selectedValue1  ,
     featured: selectedValue2 ,
     special_offer:selectedValue3  ,
-    special_offer:selectedValue4  ,
+    special_deals:selectedValue4  ,
    }
    console.log(data);
-  //  dispatch(addProduct({data}))
+   dispatch(addProduct({data}))
+
    };
+
+   
   return (
     <div>
       <Grid sx={{marginBottom:'10px'}}>
@@ -489,8 +492,8 @@ console.log("selected value",selectedDivision3);
                           <TextField
                           style={{paddingBottom:"30px"}}
                           name="pName"
-                          value={selling_price === NaN ? 0 : selling_price}
-                          onChange={(e) => Setselling_price(parseInt(e.target.value, 10) || 0)}
+                          value={selling_price}
+                          onChange={(e) => Setselling_price(e.target.value)}
                           
                           type={'number'}
                           sx={{ width: '100%' }}
@@ -670,7 +673,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                         Hot Deals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <Checkbox
-                            checked={selectedValue1 === '1'}
+                            checked={selectedValue1 === 1}
                             onChange={handleChange7}
                             value={selectedValue1}
                           />
@@ -681,7 +684,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                            Featured&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:    <Checkbox
-                                  checked={selectedValue2 === '1'}
+                                  checked={selectedValue2 === 1}
                                   onChange={handleChange8}
                                   value={selectedValue2}
                                 />
@@ -697,7 +700,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                           Special offer:  <Checkbox
-                              checked={selectedValue3 === '1'}
+                              checked={selectedValue3 === 1}
                               onChange={handleChange9}
                               value={selectedValue3}
                             />
@@ -708,7 +711,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                           Special Deals: <Checkbox
-                              checked={selectedValue4 === '1'}
+                              checked={selectedValue4 === 1}
                               onChange={handleChange10}
                               value={selectedValue4}
                             />

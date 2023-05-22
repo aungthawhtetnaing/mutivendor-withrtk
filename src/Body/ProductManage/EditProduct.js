@@ -9,6 +9,7 @@ import { vendorDetail } from '../../Redux/Components/ProductManage/AllVendorSlic
 import { addProduct } from '../../Redux/Components/ProductManage/AddProductSlice';
 import { useParams } from 'react-router-dom';
 import { productDetail } from '../../Redux/Components/ProductManage/AllProductSlice';
+import { editProduct } from '../../Redux/Components/ProductManage/EditProductSlice';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -28,7 +29,7 @@ const EditProduct = () => {
    const [product_code,setproduct_code] = useState('');
    const [product_qty,setproduct_qty] = useState('');
 
-   const [chips, setChips] = useState(['new product', 'tag product']);
+   const [chips, setChips] = useState([]);
    const [inputValue, setInputValue] = React.useState('');
 
    const [product_size, setproduct_size] = useState(['small', 'medium','large']);
@@ -71,24 +72,21 @@ console.log("productDetail id",ProductDetail);
 
 function getUsers(){
   setPName(ProductDetail?.name)
-  // setChips()
-  // setproduct_size()
-  // setproduct_color()
+  setChips(ProductDetail?.product_tags==null?undefined:ProductDetail?.product_tags)
+  setproduct_size(ProductDetail?.product_size)
+  setproduct_color(ProductDetail?.product_color)
   setShort_descp(ProductDetail?.short_descp)
   setLong_descp(ProductDetail?.long_descp)
-  Setselling_price(productDetail?.selling_price)
-  setdiscount_price(productDetail?.discount_price)
-  setproduct_code(productDetail?.product_code)
-  setproduct_qty(productDetail?.product_qty)
-  setSelectedDivision()
-  setSelectedDivision1()
-  setSelectedDivision2()
-  setSelectedDivision3()
-  setSelectedValue1()
-  setSelectedValue2()
-  setSelectedValue3()
-  setSelectedValue4()
-  // setPhotoBase64()
+  Setselling_price(ProductDetail?.selling_price)
+  setdiscount_price(ProductDetail?.discount_price)
+  setproduct_code(ProductDetail?.product_code)
+  setproduct_qty(ProductDetail?.product_qty)
+  setSelectedDivision(ProductDetail?.brand_id)
+  setSelectedValue1(ProductDetail?.hot_deals)
+  setSelectedValue2(ProductDetail?.featured)
+  setSelectedValue3(ProductDetail?.special_offer)
+  setSelectedValue4(ProductDetail?.special_deals)
+  setPhotoBase64(ProductDetail?.product_thambnail)
   // setPhotoBase64s()
 }
 
@@ -96,20 +94,20 @@ function getUsers(){
 
 
   const handleChange7 = (event) => {
-    setSelectedValue1(event.target.checked ? '1' : '0');
+    setSelectedValue1(event.target.checked ? 1 : 0);
 
   };
 
   const handleChange8 = (event) => {
-    setSelectedValue2(event.target.checked ? '1' : '0');
+    setSelectedValue2(event.target.checked ? 1 : 0);
   };
 
   const handleChange9 = (event) => {
-    setSelectedValue3(event.target.checked ? '1' : '0');
+    setSelectedValue3(event.target.checked ? 1 : 0);
   };
 
   const handleChange10 = (event) => {
-    setSelectedValue4(event.target.checked ? '1' : '0');
+    setSelectedValue4(event.target.checked ? 1 : 0);
   };
 
 
@@ -281,39 +279,40 @@ const handleChange3 = (e) => {
 
 console.log("selected value",selectedDivision3);
 
-
+const put='put'
    const handleSubmit=(e)=>{
    e.preventDefault();
    const data={
     product_name:pName,
     short_descp,
     long_descp,
-    product_tags:chips,
-    product_size,
-    product_color,
-    product_thambnail:photo== undefined? null : photoBase64,
-    multi_img:photos==undefined?null : photoBase64s,
+    product_tags:chips==null?undefined:chips,
+    product_size:product_size==null?undefined:product_size,
+    product_color:product_color==null?undefined:product_color,
+    // product_thambnail:photo== undefined? null : photoBase64,
+    // multi_img:photos==undefined?null : photoBase64s,
     selling_price,
     discount_price,
     product_code,
     product_qty,
-    brand_id:selectedDivision,
-    category_id:selectedDivision1,
-    subcategory_id:selectedDivision2==""?showcat[0]?.id:selectedDivision2,
-    vendor_id:selectedDivision3,
+    brand_id:selectedDivision==""?ProductDetail?.brand_id:selectedDivision,
+    category_id:selectedDivision1==""?ProductDetail?.category_id:selectedDivision1,
+    subcategory_id:selectedDivision2==""?ProductDetail?.subcategory_id:selectedDivision2,
+    vendor_id:selectedDivision3==""?ProductDetail?.vendor_id:selectedDivision3,
     hot_deals:selectedValue1  ,
     featured: selectedValue2 ,
     special_offer:selectedValue3  ,
     special_offer:selectedValue4  ,
+    _method:put ,
    }
    console.log(data);
-   dispatch(addProduct({data}))
+   dispatch(editProduct({data,id}))
    };
 
    useEffect(()=>{
     getUsers();
 
-  },[AllProduct])
+  },[])
   return (
     <div>
       <Grid sx={{marginBottom:'10px'}}>
@@ -360,7 +359,7 @@ console.log("selected value",selectedDivision3);
                       InputProps={{
                         startAdornment: (
                           <Stack direction="row" spacing={1}>
-                            {chips.map((chip) => (
+                            {chips?.map((chip) => (
                               <Chip
                                 color='primary'
                                 key={chip}
@@ -388,7 +387,7 @@ console.log("selected value",selectedDivision3);
                       InputProps={{
                         startAdornment: (
                           <Stack direction="row" spacing={1}>
-                            {product_size.map((chip) => (
+                            {product_size?.map((chip) => (
                               <Chip
                                 color='primary'
                                 key={chip}
@@ -416,7 +415,7 @@ console.log("selected value",selectedDivision3);
                       InputProps={{
                         startAdornment: (
                           <Stack direction="row" spacing={1}>
-                            {product_color.map((chip) => (
+                            {product_color?.map((chip) => (
                               <Chip
                                 color='primary'
                                 key={chip}
@@ -619,9 +618,14 @@ console.log("selected value",selectedDivision3);
                       
                     </InputLabel>
                     <NativeSelect
+                    defaultValue={ProductDetail?.brand_id}
+                    inputProps={{
+                         
+                          id: 'uncontrolled-native',
+                        }}
                       onChange={handleChange} 
                     >
-                      <option value=""></option>
+                     
                       {allBrand?.map((allcat) => (
                         <option key={allcat.id} value={allcat.id}>
                           {allcat.brand_name}
@@ -643,9 +647,14 @@ console.log("selected value",selectedDivision3);
                       
                     </InputLabel>
                     <NativeSelect
+                     defaultValue={ProductDetail?.category_id}
+                     inputProps={{
+                          
+                           id: 'uncontrolled-native',
+                         }}
                       onChange={handleChange1} 
                     >
-                      <option value=""></option>
+                     
                       {allCategory?.map((allcat) => (
                         <option key={allcat.id} value={allcat.id}>
                           {allcat.category_name}
@@ -667,15 +676,28 @@ console.log("selected value",selectedDivision3);
                       
                     </InputLabel>
                     <NativeSelect
+                     defaultValue={ProductDetail?.subcategory_id}
+                     inputProps={{
+                          
+                           id: 'uncontrolled-native',
+                         }}
                       // defaultValue={showcat?.id}
                       onChange={handleChange2} 
                     >
                       
-                      {showcat?.map((allcat) => (
-                        <option key={allcat.id} value={allcat.id}>
-                          {allcat.subcategory_name}
-                        </option>
-                      ))}
+                      {showcat.length > 0 ? (
+                          showcat.map(allcat => (
+                            <option key={allcat.id} value={allcat.id}>
+                              {allcat.subcategory_name}
+                            </option>
+                          ))
+                        ) : (
+                          allsubcategory.map(allcat => (
+                            <option key={allcat.id} value={allcat.id}>
+                              {allcat.subcategory_name}
+                            </option>
+                          ))
+                        )}
                     </NativeSelect>
                   </FormControl>
                 </Box>
@@ -693,10 +715,15 @@ console.log("selected value",selectedDivision3);
                       
                     </InputLabel>
                     <NativeSelect
+                     defaultValue={ProductDetail?.vendor_id}
+                     inputProps={{
+                          
+                           id: 'uncontrolled-native',
+                         }}
                       // defaultValue={showcat?.id}
                       onChange={handleChange3} 
                     >
-                       <option value=""></option>
+                      
                       {allVendor?.map((allcat) => (
                         <option key={allcat.id} value={allcat.id}>
                           {allcat.name}
@@ -716,9 +743,10 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                         Hot Deals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <Checkbox
-                            checked={selectedValue1 === '1'}
+                            checked={selectedValue1 === 1}
                             onChange={handleChange7}
                             value={selectedValue1}
+                            // disabled={selectedValue1 === '0'}
                           />
                         </Typography>
                         
@@ -727,7 +755,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                            Featured&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:    <Checkbox
-                                  checked={selectedValue2 === '1'}
+                                  checked={selectedValue2 === 1}
                                   onChange={handleChange8}
                                   value={selectedValue2}
                                 />
@@ -743,7 +771,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                           Special offer:  <Checkbox
-                              checked={selectedValue3 === '1'}
+                              checked={selectedValue3 === 1}
                               onChange={handleChange9}
                               value={selectedValue3}
                             />
@@ -754,7 +782,7 @@ console.log("selected value",selectedDivision3);
                     <Typography
                         sx={{marginLeft:"auto",fontWeight:"bold"}}>
                           Special Deals: <Checkbox
-                              checked={selectedValue4 === '1'}
+                              checked={selectedValue4 === 1}
                               onChange={handleChange10}
                               value={selectedValue4}
                             />

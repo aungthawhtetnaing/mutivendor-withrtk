@@ -7,7 +7,7 @@ const initialState = {
 
 export const DivisionDetail = createAsyncThunk('division/DivisionDetail',()=>{
    return axios
-    .get('http://192.168.2.106:9999/api/admin/shipping/division')
+    .get('http://192.168.2.108:9999/api/admin/shipping/division')
     .then((response)=>response.data.data)
 })
 

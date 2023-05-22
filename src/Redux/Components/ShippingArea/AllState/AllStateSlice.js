@@ -7,7 +7,7 @@ const initialState = {
 
 export const stateDetail = createAsyncThunk('state/stateDetail',()=>{
    return axios
-    .get('http://192.168.2.106:9999/api/admin/shipping/state')
+    .get('http://192.168.2.108:9999/api/admin/shipping/state')
     .then((response)=>(response.data.data))
 })
 

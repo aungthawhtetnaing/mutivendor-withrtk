@@ -1,8 +1,8 @@
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
-export const addState = createAsyncThunk(
-    'add/addState',async({data})=>{
-    return fetch(`http://192.168.2.108:9999/api/admin/shipping/state`,{
+export const editThambnail = createAsyncThunk(
+    'thambnail/editThambnail',async({data,id})=>{
+    return fetch(`http://192.168.2.108:9999/api/admin/update/product/thambnail/${id}`,{
         method :'POST',
         headers :{
             Accept : "application/json",
@@ -19,17 +19,17 @@ export const addState = createAsyncThunk(
 })
 
 
-const addStateSlice = createSlice({
-    name:'add',
+const allThambnailSlice = createSlice({
+    name:'thambnail',
     initialState:{
         error:false,
-        add:""
+        thambnail:""
     },
     extraReducers :{ 
-        [addState.fulfilled]:(state,action)=>{
-            state.add=[action.payload];
+        [editThambnail.fulfilled]:(state,action)=>{
+            state.thambnail=[action.payload];
         }, 
     }
 })
 
-export default addStateSlice.reducer;
+export default allThambnailSlice.reducer;
