@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const profileUpdate = createAsyncThunk(
     'update/profileUpdate',async({data,id})=>{
-    return fetch(`http://192.168.2.106:9999/api/admin/profile/detail/`+id,{
+    return fetch(`http://192.168.2.105:9999/api/admin/profile/detail/`+id,{
         method :'POST',
         headers :{
             Accept : "application/json",

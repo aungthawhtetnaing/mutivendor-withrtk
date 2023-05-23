@@ -7,7 +7,7 @@ const initialState = {
 
 export const productDetail = createAsyncThunk('product/productDetail',()=>{
    return axios
-    .get('http://192.168.2.108:9999/api/admin/product')
+    .get('http://192.168.2.105:9999/api/admin/product')
     .then((response)=>response.data.data)
 })
 

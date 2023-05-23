@@ -19,6 +19,7 @@ import AllCouponReducer from "./Components/Coupon/AllCouponSlice";
 import AllProductReducer from "./Components/ProductManage/AllProductSlice";
 import AllVendorReducer from "./Components/ProductManage/AllVendorSlice";
 import allThambnailReducer from "./Components/ProductManage/ThambnailSlice";
+import MutiImgReducer from "./Components/ProductManage/MutiImgSlice";
 const store =configureStore({
     reducer:{
         register:registerAdminReducer,
@@ -41,6 +42,7 @@ const store =configureStore({
         allProduct:AllProductReducer,
         allVendor:AllVendorReducer,
         allThambnail:allThambnailReducer,
+        mutiDetail:MutiImgReducer,
     }
 })
 

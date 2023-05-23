@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const addCategory = createAsyncThunk(
     'add/addCategory',async({data})=>{
-    return fetch(`http://192.168.2.106:9999/api/admin/category`,{
+    return fetch(`http://192.168.2.105:9999/api/admin/category`,{
         method :'POST',
         headers :{
             Accept : "application/json",

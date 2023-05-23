@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const addSlide = createAsyncThunk(
     'add/addSlide',async({data})=>{
-    return fetch(`http://192.168.2.106:9999/api/admin/slider`,{
+    return fetch(`http://192.168.2.105:9999/api/admin/slider`,{
         method :'POST',
         headers :{
             Accept : "application/json",

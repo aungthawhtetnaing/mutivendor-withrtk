@@ -7,7 +7,7 @@ const initialState = {
 
 export const profileDetail = createAsyncThunk('detail/profileDetail',async({id})=>{
    return axios
-   .get(`http://192.168.2.106:9999/api/admin/detail/${id}`)
+   .get(`http://192.168.2.105:9999/api/admin/detail/${id}`)
    .then((response)=>response.data.data) 
 })
 

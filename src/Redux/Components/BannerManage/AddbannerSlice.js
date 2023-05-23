@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const addBanner = createAsyncThunk(
     'add/addBanner',async({data})=>{
-    return fetch(`http://192.168.2.106:9999/api/admin/banner`,{
+    return fetch(`http://192.168.2.105:9999/api/admin/banner`,{
         method :'POST',
         headers :{
             Accept : "application/json",

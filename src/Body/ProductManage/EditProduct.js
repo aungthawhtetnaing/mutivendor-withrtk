@@ -10,6 +10,8 @@ import { addProduct } from '../../Redux/Components/ProductManage/AddProductSlice
 import { useParams } from 'react-router-dom';
 import { productDetail } from '../../Redux/Components/ProductManage/AllProductSlice';
 import { editProduct } from '../../Redux/Components/ProductManage/EditProductSlice';
+import { editThambnail } from '../../Redux/Components/ProductManage/ThambnailSlice';
+import { editMuti } from '../../Redux/Components/ProductManage/MutiImgSlice';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,10 +34,10 @@ const EditProduct = () => {
    const [chips, setChips] = useState([]);
    const [inputValue, setInputValue] = React.useState('');
 
-   const [product_size, setproduct_size] = useState(['small', 'medium','large']);
+   const [product_size, setproduct_size] = useState([]);
    const [inputValue1, setInputValue1] = React.useState('');
 
-   const [product_color, setproduct_color] = useState(['red', 'green','blue','black']);
+   const [product_color, setproduct_color] = useState([]);
    const [inputValue2, setInputValue2] = React.useState('');
  
    const [photo,setPhoto] = useState();
@@ -68,6 +70,13 @@ const ProductDetail = AllProduct?.find(slid => {
 });
 
 console.log("productDetail id",ProductDetail);
+
+
+const mutiImg=useSelector(state=>state.mutiDetail?.muti)
+console.log("detail mutiim",mutiImg);
+useEffect(()=>{
+    dispatch(productDetail())
+},[])
 
 
 function getUsers(){
@@ -182,31 +191,22 @@ function getUsers(){
 
   
   const handlePhotoChange1 = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    const newPhotos = [...photos];
-    const newPhotoBase64s = [...photoBase64s];
-
-    selectedFiles.forEach((file) => {
-      newPhotos.push(file);
+    const file = e.target.files[0];
+    if (file) {
+      setPhotos(file);
 
       const reader = new FileReader();
       reader.onload = () => {
-        newPhotoBase64s.push(reader.result);
-        setPhotoBase64s(newPhotoBase64s);
+        setPhotoBase64s(reader.result);
       };
       reader.readAsDataURL(file);
-    });
-
-    setPhotos(newPhotos);
+    }
   };
 
+
   const handleRemovePhoto1 = (index) => {
-    const newPhotos = [...photos];
-    const newPhotoBase64s = [...photoBase64s];
-    newPhotos.splice(index, 1);
-    newPhotoBase64s.splice(index, 1);
-    setPhotos(newPhotos);
-    setPhotoBase64s(newPhotoBase64s);
+    setPhotos(null);
+    setPhotoBase64s(null);
   };
 
 
@@ -302,12 +302,25 @@ const put='put'
     hot_deals:selectedValue1  ,
     featured: selectedValue2 ,
     special_offer:selectedValue3  ,
-    special_offer:selectedValue4  ,
+    special_deals:selectedValue4  ,
     _method:put ,
    }
    console.log(data);
+  
    dispatch(editProduct({data,id}))
+    const data1={
+      product_thambnail:photo==undefined?null:photoBase64,
+    }
+    console.log(data1);
+  dispatch(editThambnail({data1,id}))
+
+  const data2={
+    multi_img:photos==undefined?null : photoBase64s,
+  }
+  console.log(data2);
+  dispatch(editMuti({data2,id}))
    };
+
 
    useEffect(()=>{
     getUsers();
@@ -494,29 +507,29 @@ const put='put'
               ):(null)}              
             
 
-              <hr></hr>
-            <Typography
+              <hr></hr> 
+             <Typography
                 sx={{marginLeft:"auto",paddingBottom:"10px",fontWeight:"bold"}}>
                   Mutiple Images
                 </Typography>
                
                 <input
-                  type="file"
-                  onChange={handlePhotoChange1}
-                  accept="image/jpeg, image/jpg, image/png, image/webp, image/gif"
-                  multiple // Allow multiple file selection
-                />
-                <br />
-                <div style={{ display: 'flex' }}>
-                {photoBase64s.map((photoBase64, index) => (
-                  <div key={index} >
-                    <img src={photoBase64} alt="profile image" width="100px" height="100px" />
-                    <br />
-                    <button onClick={() => handleRemovePhoto1(index)}>Remove</button>
-                  </div>
-                ))}  
-                </div>
+                type="file"
+                onChange={handlePhotoChange1}
+                accept="image/jpeg, image/jpg, image/png, image/webp, image/gif"
 
+              />
+              <br/>
+              {photoBase64s?
+              (
+              <div style={{paddingBottom:"40px"}}>
+              
+              <img src={photoBase64s} alt='profile image'  width="100px" height="100px"/>
+              <br/>
+              <button onClick={handleRemovePhoto1} >Remove Photo</button>
+
+              </div>
+              ):(null)}  
                 
                 </Item>
                 {/* </form> */}
@@ -816,7 +829,8 @@ const put='put'
             </Grid>
           </Box>
         </form>
-        
+
+       
       </Grid>
     </div>
   )

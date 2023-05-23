@@ -1,19 +1,19 @@
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const editThambnail = createAsyncThunk(
-    'thambnail/editThambnail',async({data,id})=>{
-    return fetch(`http://192.168.2.108:9999/api/admin/update/product/thambnail/${id}`,{
+    'thambnail/editThambnail',async({data1,id})=>{
+    return fetch(`http://192.168.2.105:9999/api/admin/update/product/thambnail/${id}`,{
         method :'POST',
         headers :{
             Accept : "application/json",
             "content-type" : "application/json",
         },
-        body:JSON.stringify(data)
+        body:JSON.stringify(data1)
     })
     .then((result)=>{result.json()
             .then((res)=>{ console.log(res);
             //   console.log(id);
-              console.log(data);
+              console.log(data1);
                             })
                         })
 })

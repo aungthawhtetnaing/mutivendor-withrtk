@@ -4,7 +4,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 export const registerAdmin = createAsyncThunk(
     'register/registerAdmin',async({data})=>{
         // console.log(data);
-    return fetch(`http://192.168.2.106:9999/api/admin/register`,{
+    return fetch(`http://192.168.2.105:9999/api/admin/register`,{
         method :'POST',
         headers :{
             Accept : "application/json",

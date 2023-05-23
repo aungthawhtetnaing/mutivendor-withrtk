@@ -7,7 +7,7 @@ const initialState = {
 
 export const slideDetail = createAsyncThunk('slide/slideDetail',()=>{
    return axios
-    .get('http://192.168.2.106:9999/api/admin/slider')
+    .get('http://192.168.2.105:9999/api/admin/slider')
     .then((response)=>response.data)
 })
 

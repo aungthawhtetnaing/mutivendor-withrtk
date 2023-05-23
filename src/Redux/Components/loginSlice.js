@@ -4,7 +4,7 @@ export const loginAdmin = createAsyncThunk(
   "login/loginAdmin",
   async ({ email, password }) => {
     try {
-      const response = await fetch(`http://192.168.2.106:9999/api/admin/login`, {
+      const response = await fetch(`http://192.168.2.105:9999/api/admin/login`, {
         method: "POST",
         headers: {
           Accept: "application/ecmascript",

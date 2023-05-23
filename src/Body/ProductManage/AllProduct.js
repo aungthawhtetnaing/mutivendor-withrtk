@@ -108,7 +108,7 @@ export default function AllProduct() {
     // Call the APIs based on the status value
     if (newStatus === 1) {
       console.log("active",id);
-      fetch(`http://192.168.2.108:9999/api/admin/active/product/${id}`, {
+      fetch(`http://192.168.2.105:9999/api/admin/active/product/${id}`, {
         method: 'POST',
       })
         .then(response => response.json())
@@ -122,7 +122,7 @@ export default function AllProduct() {
           console.error(error);
         });
     } else {
-      fetch(`http://192.168.2.108:9999/api/admin/inactive/product/${id}`, {
+      fetch(`http://192.168.2.105:9999/api/admin/inactive/product/${id}`, {
         method: 'POST',
       })
         .then(response => response.json())

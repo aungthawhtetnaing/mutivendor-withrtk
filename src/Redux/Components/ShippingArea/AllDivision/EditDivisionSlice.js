@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const editDivision = createAsyncThunk(
     'edit/editDivision',async({data,id})=>{
-    return fetch(`http://192.168.2.108:9999/api/admin/shipping/division/`+id,{
+    return fetch(`http://192.168.2.105:9999/api/admin/shipping/division/`+id,{
         method :'POST',
         headers :{
             Accept : "application/json",

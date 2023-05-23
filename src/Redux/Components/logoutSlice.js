@@ -5,7 +5,7 @@ export const logoutAdmin = createAsyncThunk(
   "auth/logoutAdmin",
   async ({ id }) => {
     const response = await fetch(
-      `http://192.168.2.106:9999/api/admin/logout`,
+      `http://192.168.2.105:9999/api/admin/logout`,
       {
         method: "POST",
         headers: {

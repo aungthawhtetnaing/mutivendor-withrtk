@@ -7,7 +7,7 @@ const initialState = {
 
 export const dashboardAdmin = createAsyncThunk('dashboard/dashboardAdmin',()=>{
    return axios
-    .get('http://192.168.2.106:9999/api/admin/dashboard')
+    .get('http://192.168.2.105:9999/api/admin/dashboard')
     .then((response)=>response.data)
 })
 

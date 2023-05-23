@@ -4,7 +4,7 @@ import axios from "axios"
 
 
 export const deleBrand = createAsyncThunk('brand/allBrandData',({id})=>{
-   return  fetch(`http://192.168.2.106:9999/api/admin/brand/${id}`,{
+   return  fetch(`http://192.168.2.105:9999/api/admin/brand/${id}`,{
     method:'DELETE'
 
 }).then((result)=>{

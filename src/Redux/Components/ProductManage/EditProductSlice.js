@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 export const editProduct = createAsyncThunk(
     'edit/editProduct',async({data,id})=>{
-    return fetch(`http://192.168.2.108:9999/api/admin/product/`+id,{
+    return fetch(`http://192.168.2.105:9999/api/admin/product/`+id,{
         method :'POST',
         headers :{
             Accept : "application/json",
